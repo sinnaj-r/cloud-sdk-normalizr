@@ -1,7 +1,8 @@
+/* eslint-disable no-redeclare */
+/* eslint-disable global-require */
 /* eslint-disable import/export */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-redeclare */
 /*
  * Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
  *
@@ -15,20 +16,20 @@ import {
   Field,
   NumberField,
   OneToOneLink,
+  RequestBuilder,
   StringField,
 } from '@sap-cloud-sdk/core';
 import type {
   ExampleItem1,
   ExampleItem1Type,
 } from '../ExampleItem1/ExampleItem1';
-import { ExampleItem2RequestBuilder } from './ExampleItem2RequestBuilder';
 
 export interface ExampleItem2Type {
   id: string;
-  description?: string | null;
-  num1?: number | null;
-  num2?: number | null;
-  extraField?: string | null;
+  description?: string;
+  num1?: number;
+  num2?: number;
+  extraField?: string;
   parent?: ExampleItem1Type | null;
 }
 
@@ -39,12 +40,12 @@ export class ExampleItem2 extends EntityV4 implements ExampleItem2Type {
   /**
    * Technical entity name for ExampleItem2.
    */
-  static _entityName = 'ExampleItem2';
+  static readonly _entityName = 'ExampleItem2';
 
   /**
    * Default url path for the according service.
    */
-  static _defaultServicePath = 'VALUE_IS_UNDEFINED';
+  static readonly _defaultServicePath = 'test';
 
   /**
    * Id.
@@ -88,12 +89,8 @@ export class ExampleItem2 extends EntityV4 implements ExampleItem2Type {
     return EntityV4.entityBuilder(ExampleItem2);
   }
 
-  /**
-   * Returns a request builder to construct requests for operations on the `ExampleItem2` entity type.
-   * @returns A `ExampleItem2` request builder.
-   */
-  static requestBuilder(): ExampleItem2RequestBuilder {
-    return new ExampleItem2RequestBuilder();
+  static requestBuilder(): RequestBuilder<ExampleItem2> {
+    throw new Error('RequestBuilder was not generated!');
   }
 
   /**
@@ -168,7 +165,6 @@ export namespace ExampleItem2 {
     new OneToOneLink(
       'parent',
       ExampleItem2,
-      // eslint-disable-next-line global-require
       require('../ExampleItem1/ExampleItem1').ExampleItem1,
     );
   /**

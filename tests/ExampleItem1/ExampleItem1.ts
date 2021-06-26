@@ -1,7 +1,8 @@
+/* eslint-disable no-redeclare */
+/* eslint-disable global-require */
 /* eslint-disable import/export */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-redeclare */
 /*
  * Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
  *
@@ -15,22 +16,21 @@ import {
   Field,
   NumberField,
   OneToManyLink,
+  RequestBuilder,
   StringField,
 } from '@sap-cloud-sdk/core';
-// eslint-disable-next-line import/no-cycle
-import { ExampleItem1RequestBuilder } from './ExampleItem1RequestBuilder';
 import type {
-  ExampleItem2Type,
   ExampleItem2,
+  ExampleItem2Type,
 } from '../ExampleItem2/ExampleItem2';
 
 export interface ExampleItem1Type {
   id: string;
-  description?: string | null;
-  num1?: number | null;
-  num2?: number | null;
-  items?: ExampleItem2Type[];
-  items2?: ExampleItem2Type[];
+  description?: string;
+  num1?: number;
+  num2?: number;
+  items?: ExampleItem2Type[] | null;
+  items2?: ExampleItem2Type[] | null;
 }
 
 /**
@@ -40,12 +40,12 @@ export class ExampleItem1 extends EntityV4 implements ExampleItem1Type {
   /**
    * Technical entity name for ExampleItem1.
    */
-  static _entityName = 'ExampleItem1';
+  static readonly _entityName = 'ExampleItem1';
 
   /**
    * Default url path for the according service.
    */
-  static _defaultServicePath = 'VALUE_IS_UNDEFINED';
+  static readonly _defaultServicePath = 'test';
 
   /**
    * Id.
@@ -88,12 +88,8 @@ export class ExampleItem1 extends EntityV4 implements ExampleItem1Type {
     return EntityV4.entityBuilder(ExampleItem1);
   }
 
-  /**
-   * Returns a request builder to construct requests for operations on the `ExampleItem1` entity type.
-   * @returns A `ExampleItem1` request builder.
-   */
-  static requestBuilder(): ExampleItem1RequestBuilder {
-    return new ExampleItem1RequestBuilder();
+  static requestBuilder(): RequestBuilder<ExampleItem1> {
+    throw new Error('RequestBuilder was not generated!');
   }
 
   /**
@@ -159,7 +155,6 @@ export namespace ExampleItem1 {
     new OneToManyLink(
       'items',
       ExampleItem1,
-      // eslint-disable-next-line global-require
       require('../ExampleItem2/ExampleItem2').ExampleItem2,
     );
   /**
@@ -170,7 +165,6 @@ export namespace ExampleItem1 {
     new OneToManyLink(
       'items2',
       ExampleItem1,
-      // eslint-disable-next-line global-require
       require('../ExampleItem2/ExampleItem2').ExampleItem2,
     );
   /**
