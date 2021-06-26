@@ -19,15 +19,18 @@ import {
 } from '@sap-cloud-sdk/core';
 // eslint-disable-next-line import/no-cycle
 import { ExampleItem1RequestBuilder } from './ExampleItem1RequestBuilder';
-import { ExampleItem2Type, ExampleItem2 } from '../ExampleItem2/ExampleItem2';
+import type {
+  ExampleItem2Type,
+  ExampleItem2,
+} from '../ExampleItem2/ExampleItem2';
 
 export interface ExampleItem1Type {
   id: string;
   description?: string | null;
   num1?: number | null;
   num2?: number | null;
-  items: ExampleItem2Type[];
-  items2: ExampleItem2Type[];
+  items?: ExampleItem2Type[];
+  items2?: ExampleItem2Type[];
 }
 
 /**
@@ -153,13 +156,23 @@ export namespace ExampleItem1 {
    * Use to reference this property in query operations such as 'select' in the fluent request API.
    */
   export const ITEMS: OneToManyLink<ExampleItem1, ExampleItem2> =
-    new OneToManyLink('items', ExampleItem1, ExampleItem2);
+    new OneToManyLink(
+      'items',
+      ExampleItem1,
+      // eslint-disable-next-line global-require
+      require('../ExampleItem2/ExampleItem2').ExampleItem2,
+    );
   /**
    * Static representation of the one-to-many navigation property [[items2]] for query construction.
    * Use to reference this property in query operations such as 'select' in the fluent request API.
    */
   export const ITEMS_2: OneToManyLink<ExampleItem1, ExampleItem2> =
-    new OneToManyLink('items2', ExampleItem1, ExampleItem2);
+    new OneToManyLink(
+      'items2',
+      ExampleItem1,
+      // eslint-disable-next-line global-require
+      require('../ExampleItem2/ExampleItem2').ExampleItem2,
+    );
   /**
    * All fields of the ExampleItem1 entity.
    */

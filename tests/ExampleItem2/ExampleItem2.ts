@@ -17,8 +17,11 @@ import {
   OneToOneLink,
   StringField,
 } from '@sap-cloud-sdk/core';
+import type {
+  ExampleItem1,
+  ExampleItem1Type,
+} from '../ExampleItem1/ExampleItem1';
 import { ExampleItem2RequestBuilder } from './ExampleItem2RequestBuilder';
-import { ExampleItem1Type, ExampleItem1 } from '../ExampleItem1/ExampleItem1';
 
 export interface ExampleItem2Type {
   id: string;
@@ -162,7 +165,12 @@ export namespace ExampleItem2 {
    * Use to reference this property in query operations such as 'select' in the fluent request API.
    */
   export const PARENT: OneToOneLink<ExampleItem2, ExampleItem1> =
-    new OneToOneLink('parent', ExampleItem2, ExampleItem1);
+    new OneToOneLink(
+      'parent',
+      ExampleItem2,
+      // eslint-disable-next-line global-require
+      require('../ExampleItem1/ExampleItem1').ExampleItem1,
+    );
   /**
    * All fields of the ExampleItem2 entity.
    */

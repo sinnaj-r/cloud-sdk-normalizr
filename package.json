@@ -29,10 +29,9 @@
   },
   "dependencies": {
     "@sap-cloud-sdk/core": "^1.45.0",
-    "@sap-cloud-sdk/util": "^1.46.0",
     "@types/node": "^15.12.4",
     "@types/object-path": "^0.11.0",
-    "object-path": "^0.11.5"
+    "normalizr": "^3.6.1"
   },
   "module": "index.ts",
   "devDependencies": {
