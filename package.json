@@ -1,6 +1,6 @@
 {
   "name": "@epicbp2020/cloud-sdk-normalizr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create a normalizr schema from SAP Cloud SDK Entities",
   "main": "dist/index.js",
   "author": "Jannis Rosenbaum",
