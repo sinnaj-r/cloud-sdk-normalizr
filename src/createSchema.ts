@@ -31,6 +31,9 @@ const defineAttributes = <T extends SDKEntity>(
   const attributes: Record<any, any> = {};
   definiedEntities.push(constructable._entityName);
   for (const prop of constructable._allFields) {
+    if (prop._fieldName === '_up' || prop._fieldName === 'up_') {
+      continue;
+    }
     if (prop instanceof OneToOneLink) {
       // The Entity should be normalized
       if (prop._linkedEntity._entityName in entities) {
