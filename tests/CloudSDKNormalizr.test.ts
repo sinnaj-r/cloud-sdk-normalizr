@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import { normalize } from 'normalizr';
-import { createSchema } from '../src';
+import { createSchema, normalize } from '../src';
 import { ExampleItem1 } from './ExampleItem1/ExampleItem1';
 import { ExampleItem1Data, ExampleItem2Data } from './mockItems';
 

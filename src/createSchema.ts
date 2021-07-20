@@ -12,6 +12,14 @@ const { Entity } = schema;
 
 type EntitiesType = Record<string, schema.Entity<any>>;
 
+/**
+ *  This function creates the Normalizr Entities.
+ *
+ * @template T The SDK Entity Type
+ * @param {Constructable<T>} constructable A Constructable for the Type T
+ * @param {string[]} entityNames A List of allow-listed Entities
+ * @returns A Name-to-Normalizr-Entity Map
+ */
 const createEntities = <T extends SDKEntity>(
   constructable: Constructable<T>,
   entityNames: string[],
@@ -22,7 +30,14 @@ const createEntities = <T extends SDKEntity>(
   }
   return entities;
 };
-
+/**
+ * This Defines the Navigation Properties on the Normalizr Entities.
+ *
+ * @template T The SDK Entity Type
+ * @param {Constructable<T>} constructable A Constructable for the Type T
+ * @param {EntitiesType} entities A Name-to-Normalizr-Entity Map
+ * @param {string[]} definiedEntities A List of allow-listed Entities
+ */
 const defineAttributes = <T extends SDKEntity>(
   constructable: Constructable<T>,
   entities: EntitiesType,
@@ -35,13 +50,13 @@ const defineAttributes = <T extends SDKEntity>(
       continue;
     }
     if (prop instanceof OneToOneLink) {
-      // The Entity should be normalized
+      // Check if the Entity should be normalized
       if (prop._linkedEntity._entityName in entities) {
         attributes[prop._fieldName] = entities[prop._linkedEntity._entityName];
       }
     }
     if (prop instanceof OneToManyLink) {
-      // The Entity should be normalized
+      // Check if the Entity should be normalized
       if (prop._linkedEntity._entityName in entities) {
         attributes[prop._fieldName] = new schema.Array(
           entities[prop._linkedEntity._entityName],
@@ -70,7 +85,14 @@ const defineAttributes = <T extends SDKEntity>(
   entities[constructable._entityName]?.define(attributes);
   return attributes;
 };
-
+/**
+ * Creates a Normalizr Schema
+ *
+ * @template T The SDK Entity Type
+ * @param {Constructable<T>} constructable A Constructable for the Type T
+ * @param {string[]} entityNames A List of allow-listed Entities
+ * @returns A Normalizr Schema
+ */
 export const createSchema = <T extends SDKEntity>(
   constructable: Constructable<T>,
   entityNames: string[],

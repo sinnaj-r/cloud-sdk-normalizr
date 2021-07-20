@@ -7,7 +7,7 @@
   "license": "All Rights Reserved",
   "private": false,
   "scripts": {
-    "test": "env TS_NODE_PROJECT='tests/tsconfig.json' mocha -r ts-node/register --require tests/hooks.ts tests/**/*.test.ts",
+    "test": "env TS_NODE_PROJECT='tests/tsconfig.json' mocha -r ts-node/register tests/**/*.test.ts",
     "coverage": "nyc yarn test",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
     "lint:all": "yarn lint:strict && yarn lint:ts && yarn lint:depcheck ",
