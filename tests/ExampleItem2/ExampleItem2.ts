@@ -30,7 +30,7 @@ export interface ExampleItem2Type {
   num1?: number;
   num2?: number;
   extraField?: string;
-  parent?: ExampleItem1Type | null;
+  up?: ExampleItem1Type | null;
 }
 
 /**
@@ -79,7 +79,7 @@ export class ExampleItem2 extends EntityV4 implements ExampleItem2Type {
   /**
    * One-to-one navigation property to the [[ExampleItem1]] entity.
    */
-  parent?: ExampleItem1 | null;
+  up?: ExampleItem1 | null;
 
   /**
    * Returns an entity builder to construct instances of `ExampleItem2`.
@@ -158,12 +158,12 @@ export namespace ExampleItem2 {
     'Edm.String',
   );
   /**
-   * Static representation of the one-to-one navigation property [[parent]] for query construction.
+   * Static representation of the one-to-one navigation property [[up]] for query construction.
    * Use to reference this property in query operations such as 'select' in the fluent request API.
    */
-  export const PARENT: OneToOneLink<ExampleItem2, ExampleItem1> =
+  export const UP: OneToOneLink<ExampleItem2, ExampleItem1> =
     new OneToOneLink(
-      'parent',
+      '_up',
       ExampleItem2,
       require('../ExampleItem1/ExampleItem1').ExampleItem1,
     );
@@ -180,7 +180,7 @@ export namespace ExampleItem2 {
     ExampleItem2.NUM_1,
     ExampleItem2.NUM_2,
     ExampleItem2.EXTRA_FIELD,
-    ExampleItem2.PARENT,
+    ExampleItem2.UP,
   ];
   /**
    * All fields selector.

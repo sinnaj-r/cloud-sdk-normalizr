@@ -1,18 +1,20 @@
 import { ExampleItem1Type } from './ExampleItem1/ExampleItem1';
 import { ExampleItem2Type } from './ExampleItem2/ExampleItem2';
 
-const Ex2WithParent: ExampleItem2Type = {
+export const ParentExampleItem1 = {
+  id: '3',
+  description: 'Test 3',
+  num1: 5,
+  num2: 6,
+} as ExampleItem1Type;
+
+export const Ex2WithParent: ExampleItem2Type = {
   id: '3',
   description: '15',
   num1: 500000000000,
   num2: 600000000000,
   extraField: 'Extra Text 3',
-  parent: {
-    id: '3',
-    description: 'Test 3',
-    num1: 5,
-    num2: 6,
-  } as ExampleItem1Type,
+  up: ParentExampleItem1,
 };
 
 export const ExampleItem1Data: ExampleItem1Type[] = [
@@ -54,7 +56,7 @@ export const ExampleItem2Data: ExampleItem2Type[] = [
     num1: 300000000000,
     num2: 400000000000,
     extraField: 'Extra Text 2',
-    parent: ExampleItem1Data[1],
+    up: ExampleItem1Data[1],
   },
   Ex2WithParent,
 ];

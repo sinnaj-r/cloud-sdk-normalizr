@@ -6,6 +6,7 @@ import {
   OneToOneLink,
 } from '@sap-cloud-sdk/core';
 import { Entity as SDKEntity } from '@sap-cloud-sdk/core/dist/odata-v4';
+import { camelCase } from '@sap-cloud-sdk/util';
 import { schema } from 'normalizr';
 
 const { Entity } = schema;
@@ -36,52 +37,50 @@ const createEntities = <T extends SDKEntity>(
  * @template T The SDK Entity Type
  * @param {Constructable<T>} constructable A Constructable for the Type T
  * @param {EntitiesType} entities A Name-to-Normalizr-Entity Map
- * @param {string[]} definiedEntities A List of allow-listed Entities
+ * @param {string[]} definedEntities A List of already defined Entities
  */
 const defineAttributes = <T extends SDKEntity>(
   constructable: Constructable<T>,
   entities: EntitiesType,
-  definiedEntities: string[],
+  definedEntities: string[],
 ) => {
   const attributes: Record<any, any> = {};
-  definiedEntities.push(constructable._entityName);
+  definedEntities.push(constructable._entityName);
   for (const prop of constructable._allFields) {
-    if (prop._fieldName === '_up' || prop._fieldName === 'up_') {
-      continue;
-    }
-    if (prop instanceof OneToOneLink) {
-      // Check if the Entity should be normalized
-      if (prop._linkedEntity._entityName in entities) {
-        attributes[prop._fieldName] = entities[prop._linkedEntity._entityName];
-      }
-    }
-    if (prop instanceof OneToManyLink) {
-      // Check if the Entity should be normalized
-      if (prop._linkedEntity._entityName in entities) {
-        attributes[prop._fieldName] = new schema.Array(
-          entities[prop._linkedEntity._entityName],
-        );
-      }
-    }
-    if (prop instanceof Link) {
-      const name = prop._linkedEntity._entityName;
+    const fieldName = camelCase(prop._fieldName);
 
-      // Follow reference, if not known
-      if (!definiedEntities.includes(name)) {
+    // Special Handling for Links (aka. Navigation Properties)
+    if (prop instanceof Link) {
+      const linkTarget = prop._linkedEntity._entityName;
+
+      // Check if the Entity should be normalized
+      if (linkTarget in entities) {
+        if (prop instanceof OneToOneLink) {
+          attributes[fieldName] = entities[linkTarget];
+        }
+        if (prop instanceof OneToManyLink) {
+          attributes[fieldName] = new schema.Array(entities[linkTarget]);
+        }
+      }
+
+      // Now recursively follow the Link
+      // But only follow it, if it's not already known and not to the Parent
+      if (!definedEntities.includes(linkTarget) && fieldName !== 'up') {
         const result = defineAttributes(
           prop._linkedEntity,
           entities,
-          definiedEntities,
+          definedEntities,
         );
-        // eslint-disable-next-line no-unused-expressions
-        result;
-        if (!(name in entities)) {
-          attributes[prop._fieldName] =
+        // Only if the Link-Target is not in entities, e.g. a complex type,
+        // set this attribute, else it will already be set
+        if (!(linkTarget in entities)) {
+          attributes[fieldName] =
             prop instanceof OneToManyLink ? new schema.Array(result) : result;
         }
       }
     }
   }
+
   entities[constructable._entityName]?.define(attributes);
   return attributes;
 };

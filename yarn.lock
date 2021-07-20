@@ -565,6 +565,18 @@
     voca "^1.4.0"
     winston "^3.3.3"
 
+"@sap-cloud-sdk/util@^1.46.0":
+  version "1.46.0"
+  resolved "https://registry.yarnpkg.com/@sap-cloud-sdk/util/-/util-1.46.0.tgz#7f2b84ad5f6fea172aebc8d831c011a7c1706bad"
+  integrity sha512-33nvfRQayZXNog3JLfhnJXW+EbX5V/OF4n7gdLy2rOPAw/SWPzOXIrVq9duIxpCgCXrE88l/nI1HvzUPofiCzw==
+  dependencies:
+    axios "^0.21.1"
+    chalk "^4.1.0"
+    logform "^2.2.0"
+    promise.allsettled "^1.0.4"
+    voca "^1.4.0"
+    winston "^3.3.3"
+
 "@sap/xsenv@^3.0.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@sap/xsenv/-/xsenv-3.1.0.tgz#86cf4a5229c7f3d3b4425aa1fab674cf8505051e"
